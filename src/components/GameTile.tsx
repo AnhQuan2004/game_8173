@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 interface GameTileProps {
   value: number;
@@ -8,21 +8,10 @@ interface GameTileProps {
 
 const GameTile = ({ value, row, col }: GameTileProps) => {
   const [mounted, setMounted] = useState(false);
-  const [merged, setMerged] = useState(false);
-  const prevValue = useRef(value);
 
   useEffect(() => {
     requestAnimationFrame(() => setMounted(true));
   }, []);
-
-  useEffect(() => {
-    if (prevValue.current !== value) {
-      setMerged(true);
-      const timer = setTimeout(() => setMerged(false), 100);
-      prevValue.current = value;
-      return () => clearTimeout(timer);
-    }
-  }, [value]);
 
   const getTileColor = (val: number) => {
     const colors: Record<number, string> = {
@@ -60,7 +49,7 @@ const GameTile = ({ value, row, col }: GameTileProps) => {
     <div
       className={`absolute w-[calc((100%-2.25rem)/4)] aspect-square rounded-lg flex items-center justify-center font-bold text-white shadow-lg transition-all duration-200 ${
         mounted ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-      } ${merged ? 'scale-110' : ''} ${getTextSize(value)}`}
+      } ${getTextSize(value)}`}
       style={{
         ...position,
         backgroundColor: getTileColor(value),

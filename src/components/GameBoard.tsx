@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import GameTile from './GameTile';
 import GameOverlay from './GameOverlay';
 import { expectimax } from '@/lib/gameAI';
-import WalletMenu from '@/components/WalletMenu';
 
 interface Tile {
   value: number;
@@ -230,12 +229,6 @@ const GameBoard = () => {
     }
   };
 
-  const shareScore = () => {
-    const text = `I scored ${score} in 8192! Can you beat me?`;
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-  };
-
   useEffect(() => {
     return () => {
       if (aiInterval.current) clearInterval(aiInterval.current);
@@ -245,9 +238,9 @@ const GameBoard = () => {
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-lg">
-        <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex justify-between items-center mb-6">
           <h1 className="text-5xl font-bold text-foreground">8192</h1>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex gap-4">
             <div className="bg-card/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-border">
               <div className="text-xs text-muted-foreground">SCORE</div>
               <div className="text-2xl font-bold text-foreground">{score}</div>
@@ -256,7 +249,6 @@ const GameBoard = () => {
               <div className="text-xs text-muted-foreground">BEST</div>
               <div className="text-2xl font-bold text-primary">{best}</div>
             </div>
-            <WalletMenu />
           </div>
         </div>
 
@@ -270,9 +262,6 @@ const GameBoard = () => {
             className="flex-1"
           >
             {aiRunning ? 'Stop AI' : 'AI Auto'}
-          </Button>
-          <Button onClick={shareScore} className="flex-1">
-            Share
           </Button>
         </div>
 
@@ -304,11 +293,6 @@ const GameBoard = () => {
 
         <div className="text-center mt-4 text-muted-foreground text-sm">
           Use arrow keys or WASD to play
-        </div>
-        <div className="text-center mt-2 text-muted-foreground text-sm">
-          <p>
-            <strong>How to Play:</strong> Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!
-          </p>
         </div>
       </div>
 
